@@ -19,7 +19,8 @@ import java.util.Random;
  */
 public class Main extends JPanel implements ActionListener, MouseListener {
 
-    private Random random = new Random();
+    private Random random = new Random(System.currentTimeMillis());
+
     private SimplexMap simplexMap;
 
     private JFrame frame;
@@ -50,6 +51,8 @@ public class Main extends JPanel implements ActionListener, MouseListener {
             g.drawImage(simplexMap.getImage(), 0, 0, frame.getWidth(), frame.getHeight(), null);
             g.setFont(new Font("default", Font.BOLD, 16));
             g.drawString(simplexMap.getStep(), 10, 20);
+            g.drawString("Mouse left: reset, right: save/reset", 10, 40);
+
         } catch (Exception e) {
         }
     }
@@ -75,11 +78,10 @@ public class Main extends JPanel implements ActionListener, MouseListener {
     @Override
     public void mousePressed(MouseEvent mouseEvent) {
         int mm = mouseEvent.getButton();
-        if (mm == MouseEvent.BUTTON1) {
+        if (mm == MouseEvent.BUTTON2) {
             simplexMap.saveMap();
             resetMap();
-        } else if (mm == MouseEvent.BUTTON2) {
-
+        } else if (mm == MouseEvent.BUTTON1) {
             resetMap();
         }
     }

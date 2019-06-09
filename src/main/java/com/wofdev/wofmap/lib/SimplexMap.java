@@ -2,6 +2,8 @@ package com.wofdev.wofmap.lib;
 
 import com.wofdev.wofmap.lib.biom.BPoint;
 import com.wofdev.wofmap.lib.bw.BiomGenerate;
+import com.wofdev.wofmap.lib.bw.BiomRivers;
+import com.wofdev.wofmap.lib.bw.BiomSource;
 import com.wofdev.wofmap.lib.bw.IBW;
 import com.wofdev.wofmap.lib.ds.DSquare;
 
@@ -13,21 +15,28 @@ import java.util.Calendar;
 /**
  * https://habr.com/ru/post/111538/
  */
-public class SimplexMap {
+public class SimplexMap implements Runnable {
 
     private long randomKey; // Ключ генерации ландшафта
-    private final static int BOARD_SIZE = 512 * 1 + 1;
+    private final static int BOARD_SIZE = 512 * 2 + 1;
     private BPoint[][] bPoints;
     // Текущая высота
 
-    private int step = 0;
+    private int step = 1;
+    private int i = 0;
     private BufferedImage output;
     private IBW bg;
 
+    private Thread th;
+
+    private final Object lock = new Object();
+
     public SimplexMap(long randomKey) {
         this.randomKey = randomKey;
-        this.randomKey = 7852911085795504060l;
+        //this.randomKey = 7852911085795504060l;
     }
+
+    //------------------------------------------------------------------------------------------------------------------
 
     /**
      * Алгоритм генерации карты.
@@ -43,7 +52,7 @@ public class SimplexMap {
                 bPoints[x][y] = new BPoint(data[x][y]);
             }
         }
-        this.bg = new BiomGenerate(bPoints, randomKey);
+        setBg();
     }
 
     /**
@@ -63,20 +72,71 @@ public class SimplexMap {
 
     //------------------------------------------------------------------------------------------------------------------
 
+    private void setBg() {
+        switch (step) {
+            case 1:
+                // форимрования высот: море, песок, горы.
+                this.bg = new BiomGenerate(bPoints, randomKey);
+                break;
+            case 2:
+                // Источники - родники, входы в шахты,
+                bg = new BiomSource(bPoints, randomKey);
+                break;
+            case 3:
+                // Течение воды.
+                bg = new BiomRivers(bPoints, randomKey);
+                break;
+            default:
+                this.bg = null;
+        }
+        if (bg != null) {
+            this.th = new Thread(this);
+            th.start();
+        }
+    }
+
+    @Override
+    public void run() {
+        boolean work = true;
+        while (work) {
+            if (bg != null && !bg.isEnd()) {
+                bg.calc();
+                i++;
+                continue;
+            }
+            step++;
+            i = 0;
+            setBg();
+            work = false;
+        }
+
+    }
+
     /**
      * Поднять высоту на 1 еденицу.
      */
     public void incHeight() {
-        if (!bg.isEnd()) {
-            step++;
+
+        if (bg == null) {
+            // Процесс формирования биом завершен.
+            return;
         }
 
-        bg.calc();
     }
 
 
+    //------------------------------------------------------------------------------------------------------------------
+
+    /**
+     * Счетчик шагов обработки, для контроля работы обработки.
+     *
+     * @return
+     */
     public String getStep() {
-        return "Step: " + Integer.toString(step);
+        if (bg == null) {
+            return "Step: END";
+        }
+        return "Step: " + i;
     }
 
     //------------------------------------------------------------------------------------------------------------------

@@ -60,6 +60,7 @@ public class BiomGenerate extends IBW {
                 xIn = (int) bPoints[x][y].getHeight();
                 if (xIn < liv[0]) { // Море
                     bPoints[x][y].setType(BPoint.TYPE_OCEAN);
+                    bPoints[x][y].setWaterLevel(liv[0]);
                     lp[0]++; // Всего точек по этому правилу
                 } else if (liv[1] > xIn) {// Песок
                     bPoints[x][y].setType(BPoint.TYPE_SAND);
