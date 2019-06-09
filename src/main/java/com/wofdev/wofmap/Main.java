@@ -78,7 +78,7 @@ public class Main extends JPanel implements ActionListener, MouseListener {
     @Override
     public void mousePressed(MouseEvent mouseEvent) {
         int mm = mouseEvent.getButton();
-        if (mm == MouseEvent.BUTTON2) {
+        if (mm == MouseEvent.BUTTON3) {
             simplexMap.saveMap();
             resetMap();
         } else if (mm == MouseEvent.BUTTON1) {

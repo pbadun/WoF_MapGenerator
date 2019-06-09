@@ -17,8 +17,11 @@ import java.util.Calendar;
  */
 public class SimplexMap implements Runnable {
 
+    //TODO Размер карты х64
+    private final int COOFF_SIZE = 8;
     private long randomKey; // Ключ генерации ландшафта
-    private final static int BOARD_SIZE = 512 * 2 + 1;
+
+    private final int BOARD_SIZE;
     private BPoint[][] bPoints;
     // Текущая высота
 
@@ -32,6 +35,7 @@ public class SimplexMap implements Runnable {
     private final Object lock = new Object();
 
     public SimplexMap(long randomKey) {
+        BOARD_SIZE = 64 * COOFF_SIZE + 1;
         this.randomKey = randomKey;
         //this.randomKey = 7852911085795504060l;
     }
@@ -141,7 +145,7 @@ public class SimplexMap implements Runnable {
 
     //------------------------------------------------------------------------------------------------------------------
     public void saveMap() {
-        if (!bg.isEnd()) {
+        if (bg != null && !bg.isEnd()) {
             return;
         }
         try {
