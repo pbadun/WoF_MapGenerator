@@ -149,7 +149,6 @@ public class SimplexMap implements Runnable {
             return;
         }
         try {
-            Calendar calendar = Calendar.getInstance();
             File outputfile = new File(
                     Integer.toString(BOARD_SIZE) + "_RandomKey_" + Long.toString(randomKey) + "_.png");
             ImageIO.write(output, "png", outputfile);
