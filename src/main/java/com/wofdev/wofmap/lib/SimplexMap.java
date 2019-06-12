@@ -18,7 +18,7 @@ import java.util.Calendar;
 public class SimplexMap implements Runnable {
 
     //TODO Размер карты х64
-    private final int COOFF_SIZE = 8;
+    private final int COOFF_SIZE = 2;
     private long randomKey; // Ключ генерации ландшафта
 
     private final int BOARD_SIZE;
@@ -155,5 +155,9 @@ public class SimplexMap implements Runnable {
         } catch (Exception e) {
             System.out.println("Error writing file");
         }
+    }
+
+    public BPoint[][] getbPoints() {
+        return bPoints;
     }
 }

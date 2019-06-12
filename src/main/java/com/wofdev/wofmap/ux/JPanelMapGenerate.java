@@ -1,4 +1,4 @@
-package com.wofdev.wofmap;
+package com.wofdev.wofmap.ux;
 
 import com.wofdev.wofmap.lib.SimplexMap;
 
@@ -17,17 +17,20 @@ import java.util.Random;
 /**
  * Created by jb on 03.12.17.
  */
-public class Main extends JPanel implements ActionListener, MouseListener {
+public class JPanelMapGenerate extends JPanel implements ActionListener, MouseListener {
 
     private Random random = new Random(System.currentTimeMillis());
 
     private SimplexMap simplexMap;
 
+    private JPanelCallBack jPanelCallBack;
+
     private JFrame frame;
     private Timer timer = new Timer(30, this);
 
-    public Main(JFrame frame) {
+    public JPanelMapGenerate(JFrame frame, JPanelCallBack jPanelCallBack) {
         this.frame = frame;
+        this.jPanelCallBack = jPanelCallBack;
         addMouseListener(this);
         resetMap();
         timer.start();
@@ -83,6 +86,9 @@ public class Main extends JPanel implements ActionListener, MouseListener {
             resetMap();
         } else if (mm == MouseEvent.BUTTON1) {
             resetMap();
+        } else if (mm == MouseEvent.BUTTON2) {
+            // Загрусть текущий фрейм.
+            jPanelCallBack.closeProcess();
         }
     }
 
@@ -104,4 +110,8 @@ public class Main extends JPanel implements ActionListener, MouseListener {
 
     }
 
+
+    public SimplexMap getSimplexMap() {
+        return simplexMap;
+    }
 }
