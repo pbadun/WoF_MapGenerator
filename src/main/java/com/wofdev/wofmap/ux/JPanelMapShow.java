@@ -119,7 +119,7 @@ public class JPanelMapShow extends JPanel implements ActionListener, MouseInputL
                         break;
                 }
                 xx = x * ww - y * ww;
-                yy = (x * hh + y * hh) - zz;
+                yy = (int)((x * hh + y * hh) - zz * 1.5f);
                 int xC = bX - mX;
                 int yC = bY + mY;
                 g.drawImage(image, xx + xC, yy - yC, w, h, null);
