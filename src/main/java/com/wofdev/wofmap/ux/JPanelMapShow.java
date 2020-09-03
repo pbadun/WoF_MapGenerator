@@ -208,7 +208,7 @@ public class JPanelMapShow extends JPanel implements ActionListener, MouseInputL
     public void mouseDragged(MouseEvent mouseEvent) {
         mX = bXM - mouseEvent.getX();
         mY = bYM - mouseEvent.getY();
-        System.out.println("x:" + mX + " y:" + mY + "  " + bX + ":" + bY);
+        //System.out.println("x:" + mX + " y:" + mY + "  " + bX + ":" + bY);
     }
 
     @Override
@@ -233,7 +233,7 @@ public class JPanelMapShow extends JPanel implements ActionListener, MouseInputL
             if (e.getKeyCode() == KeyEvent.VK_DOWN) {
                 downPressed = true;
             }
-            System.out.println("+:" + e.getKeyCode());
+            //System.out.println("+:" + e.getKeyCode());
         }
 
         @Override
@@ -250,7 +250,7 @@ public class JPanelMapShow extends JPanel implements ActionListener, MouseInputL
             if (e.getKeyCode() == KeyEvent.VK_DOWN) {
                 downPressed = false;
             }
-            System.out.println("-:" + e.getKeyCode());
+            //System.out.println("-:" + e.getKeyCode());
         }
     }
 
